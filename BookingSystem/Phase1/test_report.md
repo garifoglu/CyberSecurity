@@ -15,6 +15,7 @@
 | **Assumptions & constraints:** | Limited to the endpoints discovered by the ZAP baseline scan; no authenticated testing was performed. |
 
 
+
 ---
 
 ## 2️⃣ Executive Summary
@@ -53,10 +54,6 @@
 | **F-03** | 🟠 Medium | Absence of Anti-CSRF Tokens | The form on /register using POST method is missing an Anti-CSRF token, making the registration action vulnerable to CSRF attacks. | URL: http://localhost:8000/register, Evidence: `<form action="/register" method="POST">` with no CSRF token found. |
 | **F-04** | 🟠 Medium | Missing Anti-clickjacking Header | The application responses do not include `X-Frame-Options` or `Content-Security-Policy: frame-ancestors`, which is required to prevent Clickjacking attacks. | URL: http://localhost:8000/, http://localhost:8000/register, Parameter: X-Frame-Options missing. |
 | **F-05** | 🟠 Medium | Missing Content Security Policy (CSP) | The Content Security Policy (CSP) header is not set. This increases the risk and impact of XSS and data injection attacks. | URL: http://localhost:8000/, http://localhost:8000/register, CSP Header Not Set. |
-| **F-06** | 🟠 Medium | Format String Error | The username parameter is vulnerable to format string attacks, which could potentially lead to information disclosure or denial of service. | URL: http://localhost:8000/register, Parameter: username, Attack: Format string payload, Evidence: Connection closed on /%s. |
-| **F-07** | 🟡 Low | X-Content-Type-Options Header Missing | The X-Content-Type-Options header is not set to 'nosniff', which could allow browsers to perform MIME-sniffing on responses. | URL: http://localhost:8000/, http://localhost:8000/register, static files, Parameter: X-Content-Type-Options missing. |
-| **F-08** | 🔵 Info | User Agent Fuzzer | The application was tested with different User-Agent strings to check for behavioral differences. | URL: http://localhost:8000/register, Instances: 12 different User-Agent strings tested. |
-
 
 ---
 
