@@ -9,8 +9,8 @@
 | **Scope – Tested components:** | http://localhost:8001/register endpoint |
 | **Scope – Exclusions:** | Underlying Operating System, Network Infrastructure, External Services |
 | **Test approach:** | Black-box |
-| **Test environment & dates – Start:** | 2025-11-26 |
-| **Test environment & dates – End:** | 2025-11-26 |
+| **Test environment & dates – Start:** | 2025-12-08 |
+| **Test environment & dates – End:** | 2025-12-08 |
 | **Test environment details:** | Target is running on http://localhost:8001/. |
 | **Assumptions & constraints:** | Limited to the endpoints discovered by the ZAP baseline scan; no authenticated testing was performed. |
 
