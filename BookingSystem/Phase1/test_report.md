@@ -15,6 +15,7 @@
 | **Assumptions & constraints:** | Limited to the endpoints discovered by the ZAP baseline scan; no authenticated testing was performed. |
 
 
+
 ---
 
 ## 2️⃣ Executive Summary
