@@ -12,3 +12,4 @@
 |08.12.2025|2           |BookingSystemProject Phase 2               |Injection tests &  Zap Reports         |
 |08.12.2025|5           |BookingSystemProject Phase 2               |Dictionary and non-dictionart attacks. |
 |16.12.2025|3           |BookingSystemProject Phase 3               |Preparations, understanding the task   |
+|16.12.2025|6           |BookingSystemProject Phase 3               |Test and reports                       |
