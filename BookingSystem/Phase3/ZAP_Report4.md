@@ -9,7 +9,7 @@ ZAP by [Checkmarx](https://checkmarx.com/).
 | --- | --- |
 | High | 0 |
 | Medium | 0 |
-| Low | 1 |
+| Low | 0 |
 | Informational | 3 |
 
 
@@ -19,10 +19,9 @@ ZAP by [Checkmarx](https://checkmarx.com/).
 
 | Name | Risk Level | Number of Instances |
 | --- | --- | --- |
-| ZAP is Out of Date | Low | 1 |
 | Authentication Request Identified | Informational | 1 |
-| Session Management Response Identified | Informational | 2 |
-| User Agent Fuzzer | Informational | 132 |
+| Session Management Response Identified | Informational | 4 |
+| User Agent Fuzzer | Informational | 96 |
 
 
 
@@ -30,45 +29,6 @@ ZAP by [Checkmarx](https://checkmarx.com/).
 ## Alert Detail
 
 
-
-### [ ZAP is Out of Date ](https://www.zaproxy.org/docs/alerts/10116/)
-
-
-
-##### Low (High)
-
-### Description
-
-The version of ZAP you are using to test your app is out of date and is no longer being updated.
-The risk level is set based on how out of date your ZAP version is.
-
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: ``
-  * Attack: ``
-  * Evidence: ``
-  * Other Info: `The latest version of ZAP is 2.17.0`
-
-
-Instances: 1
-
-### Solution
-
-Download the latest version of ZAP from https://www.zaproxy.org/download/ and install it.
-
-### Reference
-
-
-* [ https://www.zaproxy.org/download/ ](https://www.zaproxy.org/download/)
-
-
-#### CWE Id: [ 1104 ](https://cwe.mitre.org/data/definitions/1104.html)
-
-
-#### WASC Id: 45
-
-#### Source ID: 3
 
 ### [ Authentication Request Identified ](https://www.zaproxy.org/docs/alerts/10111/)
 
@@ -80,8 +40,7 @@ Download the latest version of ZAP from https://www.zaproxy.org/download/ and in
 
 The given request has been identified as an authentication request. The 'Other Info' field contains a set of key=value lines which identify any relevant fields. If the request is in a context which has an Authentication Method set to "Auto-Detect" then this rule will change the authentication to match the request identified.
 
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `username`
   * Attack: ``
@@ -89,9 +48,8 @@ The given request has been identified as an authentication request. The 'Other I
   * Other Info: `userParam=username
 userValue=foo-bar@example.com
 passwordParam=password
-referer=http://192.168.32.13:8003/login
+referer=http://localhost:8003/login
 csrfToken=csrf_token`
-
 
 Instances: 1
 
@@ -118,23 +76,36 @@ This is an informational alert rather than a vulnerability and so there is nothi
 
 The given response has been identified as containing a session management token. The 'Other Info' field contains a set of header tokens that can be used in the Header Based Session Management Method. If the request is in a context which has a Session Management Method set to "Auto-Detect" then this rule will change the session management to use the tokens identified.
 
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `csrf_token`
   * Attack: ``
-  * Evidence: `csrf_token`
-  * Other Info: `cookie:csrf_token`
-* URL: http://192.168.32.13:8003/register
-
+  * Evidence: `fc500b25-2025-4271-9e1f-5abd02e09f03`
+  * Other Info: `
+cookie:csrf_token`
+* URL: http://localhost:8003/register
   * Method: `GET`
   * Parameter: `csrf_token`
   * Attack: ``
-  * Evidence: `csrf_token`
-  * Other Info: `cookie:csrf_token`
+  * Evidence: `4b14d751-0539-44f0-a437-61f7d9368f5f`
+  * Other Info: `
+cookie:csrf_token`
+* URL: http://localhost:8003/register
+  * Method: `GET`
+  * Parameter: `csrf_token`
+  * Attack: ``
+  * Evidence: `4b14d751-0539-44f0-a437-61f7d9368f5f`
+  * Other Info: `
+cookie:csrf_token`
+* URL: http://localhost:8003/register
+  * Method: `POST`
+  * Parameter: `csrf_token`
+  * Attack: ``
+  * Evidence: `4b14d751-0539-44f0-a437-61f7d9368f5f`
+  * Other Info: `
+cookie:csrf_token`
 
-
-Instances: 2
+Instances: 4
 
 ### Solution
 
@@ -143,7 +114,7 @@ This is an informational alert rather than a vulnerability and so there is nothi
 ### Reference
 
 
-* [ https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/ ](https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/)
+* [ https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id ](https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id)
 
 
 
@@ -159,933 +130,584 @@ This is an informational alert rather than a vulnerability and so there is nothi
 
 Check for differences in response based on fuzzed User Agent (eg. mobile sites, access as a Search Engine Crawler). Compares the response statuscode and the hashcode of the response body with the original response.
 
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003
-
+* URL: http://localhost:8003/login
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/
-
+* URL: http://localhost:8003/reservation
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/robots.txt
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/sitemap.xml
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/reservation
-
+* URL: http://localhost:8003/static
   * Method: `GET`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/robots.txt
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/sitemap.xml
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/static
-
-  * Method: `GET`
-  * Parameter: `Header User-Agent`
-  * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
-  * Evidence: ``
-  * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/login
-
+* URL: http://localhost:8003/login
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/register
-
+* URL: http://localhost:8003/register
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3739.0 Safari/537.36 Edg/75.0.109.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/91.0`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16`
   * Evidence: ``
   * Other Info: ``
-* URL: http://192.168.32.13:8003/resources
-
+* URL: http://localhost:8003/resources
   * Method: `POST`
   * Parameter: `Header User-Agent`
   * Attack: `msnbot/1.1 (+http://search.msn.com/msnbot.htm)`
   * Evidence: ``
   * Other Info: ``
 
-
-Instances: 132
+Instances: 96
 
 ### Solution
 
