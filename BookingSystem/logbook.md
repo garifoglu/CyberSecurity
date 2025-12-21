@@ -17,3 +17,7 @@
 |18.12.2025|3           |BookingSystemProject Phase 4               |Phasae 4                               |
 |19.12.2025|6           |Portswigger                                |Portswigger labs                       |
 |20.12.2025|6+4         |Phase3 redo and Portswigger                |Portswigger labs                       |
+|21.12.2025|7           | Portswigger                               |Portswigger labs                       |
+|24.11.2025|3           | Phase1 Part1                              |Docker compose file error              |
+|**Total hours**|**81** |                                                                                   |
+
